@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.systrangroup.web.template.example.domain.User;
 import com.systrangroup.web.template.example.service.BusinessService;
@@ -20,8 +21,12 @@ public class MainController {
 	@Autowired private BusinessService businessService;
 	
     @RequestMapping
-    public @ResponseBody String index() {
-        return "Spring Boot~";
+    public @ResponseBody ModelAndView index() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("index");
+        String str = "Hello World!";
+        mav.addObject("message", str);
+        return mav;    	
     }
     
     /**
@@ -33,7 +38,8 @@ public class MainController {
         return this.businessService.findAllUser();
     }
     
-    /** save a user via CRUD(create, read, update, delete) repository
+    /** 
+     * save a user via CRUD(create, read, update, delete) repository
      * @return
      */
     @RequestMapping("/saveUser")
@@ -41,7 +47,8 @@ public class MainController {
         this.businessService.saveUser();
     } 
     
-    /**find a user by advanced query(JPQL)
+    /**
+     * find a user by advanced query(JPQL)
      * @return
      */
     @RequestMapping("/findOneUserByAdvancedQuery")
@@ -49,7 +56,8 @@ public class MainController {
         return this.businessService.findOneUserByAdvancedQuery(user.getName());
     }        
     
-    /**search by defined query
+    /**
+     * search by defined query
      * @return
      */
     @RequestMapping("/findByNameFromUser")
@@ -57,7 +65,8 @@ public class MainController {
         return this.businessService.findByNameFromUser(user.getName());
     }
     
-    /**search by customized query
+    /**
+     * search by customized query
      * @return
      */
     @RequestMapping("/findOneUserByNativeQuery")
@@ -65,7 +74,8 @@ public class MainController {
         return this.businessService.findOneUserByNativeQuery();
     }
     
-    /**search by queryDsl(Joined JPQL)
+    /**
+     * search by queryDsl(Joined JPQL)
      * @return
      */
     @RequestMapping("/findOneUserByQueryDsl")
@@ -73,11 +83,12 @@ public class MainController {
     	return this.businessService.findOneUserByQueryDsl(user.getId());
     }
     
-    /**get list with pagination 
+    /**
+     * get list with pagination 
      * @return
      */
     @RequestMapping("/findListWithPagination")
-    public @ResponseBody List<User> findListWithPagination(User user,@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize")int pageSize) throws Exception{
+    public @ResponseBody List<User> findListWithPagination(User user,@RequestParam("page") int pageNumber, @RequestParam("size")int pageSize) throws Exception{
     	Pageable pageRequest = new PageRequest(pageNumber, pageSize, Sort.Direction.DESC, "id");
     	return this.businessService.findListWithPagination(user, pageRequest);
     }

@@ -19,6 +19,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.google.common.base.MoreObjects;
+
+import lombok.ToString;
  
 @Entity
 @NamedQueries({
@@ -29,6 +31,8 @@ import com.google.common.base.MoreObjects;
     @NamedQuery(name="User.findByNameAndAge",
                 query="from User u where u.name = ? and age = ?"),
 }) 
+
+@ToString(callSuper=false, includeFieldNames=true)
 public class User{
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -100,12 +104,4 @@ public class User{
 		this.createdDate = createdDate;
 	}
 
-	public String toString(){
-		return MoreObjects.toStringHelper(this)
-				.add("user name", this.name)
-				.add("user age", this.age)
-				.add("dept name", this.dept.toString())
-				.add("created date", this.createdDate)
-				.toString();
-	}
 }

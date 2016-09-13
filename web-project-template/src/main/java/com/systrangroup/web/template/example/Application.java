@@ -8,8 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan
 @EnableAutoConfiguration
 @SpringBootApplication
-public class DemoBootApplication {
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(DemoBootApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }
