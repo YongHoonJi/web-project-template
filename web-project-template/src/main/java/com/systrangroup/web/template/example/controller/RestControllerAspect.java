@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RestControllerAspect {
 	
-	private static final Logger log = LoggerFactory.getLogger(RestControllerAspect.class);
+	protected final Logger log = LoggerFactory.getLogger(this.getClass());
 	
     @Before("execution(public * com.systrangroup.web.template.example.controller.*Controller.*(..))")
     public void before(JoinPoint jp) throws Throwable {

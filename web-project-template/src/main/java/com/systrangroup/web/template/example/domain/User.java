@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
  
@@ -52,4 +53,13 @@ public class User{
 	
 	@Temporal(TemporalType.DATE)
 	private Date createdDate=new Date();
+	
+	public  User(){}
+	
+	public  User(String name, Integer age, Dept dept){
+		this.name = name;
+		this.age = age;
+		this.dept = dept;
+		this.activeType = ActiveType.N;
+	}
 }

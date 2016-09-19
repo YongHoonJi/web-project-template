@@ -45,11 +45,9 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 		
 		em.persist(newUser);
 
-		System.out.println("queryFromPersistence");
 		String queryFromPersistence = "from User u where u.name = 'Turing'";
 		em.createQuery(queryFromPersistence).getResultList();
 		
-		System.out.println("queryFromDB");
 		String queryFromDB = "from User u where u.inactive = 'Y'";
 		List<User> users = em.createQuery(queryFromDB).getResultList();
 
