@@ -11,10 +11,14 @@ import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.Data;
+import lombok.ToString;
+
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
+@Data
+@ToString(callSuper=false, includeFieldNames=true)
 public class Dept{
-	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long deptId;
@@ -22,21 +26,4 @@ public class Dept{
 	@Enumerated(EnumType.STRING)
     @Column(name = "name", nullable = false)
     private DeptNameType deptNameType;
-
-	public Long getId() {
-		return deptId;
-	}
-
-	public void setId(Long id) {
-		this.deptId = id;
-	}
-
-	public DeptNameType getDeptNameType() {
-		return deptNameType;
-	}
-
-	public void setDeptNameType(DeptNameType deptNameType) {
-		this.deptNameType = deptNameType;
-	}
-
 }

@@ -18,11 +18,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.google.common.base.MoreObjects;
-
+import lombok.Data;
 import lombok.ToString;
  
 @Entity
+@Data
 @NamedQueries({
     @NamedQuery(
     		name="User.findByName",
@@ -31,12 +31,11 @@ import lombok.ToString;
     @NamedQuery(name="User.findByNameAndAge",
                 query="from User u where u.name = ? and age = ?"),
 }) 
-
 @ToString(callSuper=false, includeFieldNames=true)
 public class User{
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	private Long id;
  
     @Column(name = "name", nullable = false)
     private String name;
@@ -51,57 +50,6 @@ public class User{
 	@JoinColumn(name="DEPT_ID")
 	private Dept dept;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date createdDate=new Date();
-	
-	
-    public Long getId() {
-        return id;
-    }
- 
-    public void setId(Long id) {
-        this.id = id;
-    }
- 
-    public String getName() {
-        return name;
-    }
- 
-    public void setName(String name) {
-        this.name = name;
-    }
- 
-    public Integer getAge() {
-        return age;
-    }
- 
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-
-	public Dept getDept() {
-		return dept;
-	}
-
-	public void setDept(Dept dept) {
-		this.dept = dept;
-	}
-
-	public ActiveType getActiveType() {
-		return activeType;
-	}
-
-	public void setActiveType(ActiveType activeType) {
-		this.activeType = activeType;
-	}
-	
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
 }

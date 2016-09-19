@@ -51,7 +51,7 @@ public class BusinessServiceImpl implements BusinessService{
 		System.out.println(advQueryRepository.findByName(name).toString());
 		int age = 99;
 		// search by name and age
-		System.out.println(advQueryRepository.findByNameAndAge(name, age).toString());
+		System.out.println(advQueryRepository.findByNameAndAge(name, age));
 		return advQueryRepository.findByName(name);
 	}
 	
@@ -62,16 +62,6 @@ public class BusinessServiceImpl implements BusinessService{
     	jpaCRUDRepository.save(this.createMockUser("Mick", 17, DeptNameType.QA));
     	jpaCRUDRepository.save(this.createMockUser("Cal", 27, DeptNameType.CODER));
     	jpaCRUDRepository.save(this.createMockUser("Ano", 22, DeptNameType.CODER));
-    	jpaCRUDRepository.save(this.createMockUser("Ano", 21, DeptNameType.CODER));
-    	jpaCRUDRepository.save(this.createMockUser("Ano", 21, DeptNameType.CODER));
-    	jpaCRUDRepository.save(this.createMockUser("Ano", 25, DeptNameType.CODER));
-    	jpaCRUDRepository.save(this.createMockUser("Ano", 28, DeptNameType.MAN));
-    	jpaCRUDRepository.save(this.createMockUser("Ano", 20, DeptNameType.QA));
-    	
-    	Iterable<User> iteratorUserFromPersistence = jpaCRUDRepository.findAll();
-    	for(User user:iteratorUserFromPersistence){
-    		System.out.println(user.getName());
-    	}
 	}
 	
 	private User createMockUser(String userName, int age, DeptNameType deptNameType){
@@ -81,15 +71,14 @@ public class BusinessServiceImpl implements BusinessService{
     	user.setAge(age);
     	user.setName(userName);
     	user.setActiveType(ActiveType.Y);
-    	user.setCreatedDate(new Date());
     	user.setDept(dept);
     	return user;
 	}
 	
 	public List<User> findAllUser(){
-		User user = userRepository.save(this.createMockUser("PM", 27, DeptNameType.ARCH));
-		User selectedUser = userRepository.findOne(user.getId()); // select from persistence area
-		System.out.println(selectedUser.toString());
+		//User user = userRepository.save(this.createMockUser("PM", 27, DeptNameType.ARCH));
+		//User selectedUser = userRepository.findOne(user.getId()); // select from persistence area
+		//System.out.println(selectedUser.toString());
 		return userRepository.findAll();
 	}
 	

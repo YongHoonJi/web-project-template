@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<property scope="context" name="logfolder" value="C:/logs/web_template" />
+	<property scope="context" name="logfolder" value="/Users/Justin/Documents/logs/web_template" />
     <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
     <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
         <!-- "application-name" is a variable --> 
