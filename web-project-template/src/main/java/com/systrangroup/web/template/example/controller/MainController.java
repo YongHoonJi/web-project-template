@@ -92,7 +92,7 @@ public class MainController extends AbstractRestHandler{
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "Deactivate a user.", notes = "You have to provide a valid user ID in the URL.")
-    public void deleteHotel(@ApiParam(value = "The ID of the existing user.", required = true)
+    public void deleteUser(@ApiParam(value = "The ID of the existing user.", required = true)
                                  @PathVariable("id") Long id, 
                                  HttpServletRequest request, HttpServletResponse response) {
         checkResourceFound(this.businessService.getUser(id));
