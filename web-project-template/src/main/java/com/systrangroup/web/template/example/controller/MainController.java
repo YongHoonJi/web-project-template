@@ -16,7 +16,7 @@ import com.systrangroup.web.template.example.domain.User;
 import com.systrangroup.web.template.example.service.BusinessService;
  
 @Controller
-@RequestMapping("/")
+@RequestMapping("/sample")
 public class MainController {
 	@Autowired private BusinessService businessService;
 	
@@ -33,7 +33,7 @@ public class MainController {
      * Find all users via JPA repository - check persistence area
      * @return
      */
-    @RequestMapping("/findAllUser")
+    @RequestMapping("user")
     public @ResponseBody List<User> findAllUser() {
         return this.businessService.findAllUser();
     }
@@ -42,7 +42,7 @@ public class MainController {
      * save a user via CRUD(create, read, update, delete) repository
      * @return
      */
-    @RequestMapping("/saveUser")
+    @RequestMapping("user/put")
     public @ResponseBody void saveUser() {
         this.businessService.saveUser();
     } 
