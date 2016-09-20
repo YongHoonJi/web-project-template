@@ -17,6 +17,8 @@ C:/Program Files/Java/jdk1.8.0_31/bin/javaw.exe
 
 2. 프로젝트 빌드 패스에 jre -> jdk로 변경
 
+3. mvn eclipse:eclipse
+
 # 클라언트 테스트 케이스 
 
 - find all
