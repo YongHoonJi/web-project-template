@@ -10,6 +10,12 @@ insert into dept (dept_id, name) values (1, 'ARCH');
 insert into dept (dept_id, name) values (2, 'CODER');
 insert into dept (dept_id, name) values (3, 'QA');
 
+#querydsl(mysema) 설정
+1. elipse.ini 맨 위에  추가
+-vm
+C:/Program Files/Java/jdk1.8.0_31/bin/javaw.exe
+
+2. 프로젝트 빌드 패스에 jre -> jdk로 변경
 
 # 클라언트 테스트 케이스 
 
@@ -30,3 +36,4 @@ BODY :{"name":"JiYong","age":27,"activeType":"Y","dept":{"deptId":3,"deptNameTyp
 REQUEST TYPE : PUT
 URL : http://localhost:8080/sample/users/{id}
 BODY : {"id":1, name":"JiYong","age":27,"activeType":"Y","dept":{"deptId":3,"deptNameType":"CODER"}}
+
