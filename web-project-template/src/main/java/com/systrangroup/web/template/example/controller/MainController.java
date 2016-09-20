@@ -67,7 +67,7 @@ public class MainController extends AbstractRestHandler{
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "Create a user.", notes = "Returns the URL of the new resource in the Location header.")    
+    @ApiOperation(value = "Create a user.", notes = "Returns the URL of the new resource in the Location header.")
     public void createUser(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
         User savedUser = this.businessService.createUser(user);
         response.setHeader("Location", request.getRequestURL().append("/").append(savedUser.getId()).toString());
