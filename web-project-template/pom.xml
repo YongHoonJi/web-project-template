@@ -45,12 +45,12 @@
             <artifactId>spring-boot-actuator</artifactId>
         </dependency>
         
-        <!-- Spring security 
+        <!-- Spring security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        -->
+        
 		<!-- jpa 설정 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

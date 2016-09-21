@@ -18,9 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
  
 @Entity
 @Data
@@ -32,12 +30,17 @@ import lombok.ToString;
     @NamedQuery(name="User.findByNameAndAge",
                 query="from User u where u.name = ? and age = ?"),
 }) 
-@ToString(callSuper=false, includeFieldNames=true)
 public class User{
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
- 
+	
+	@Column(name = "email", nullable = false)
+	private String email;
+	
+	@Column(name = "password", nullable = false)
+	private String password;
+	
     @Column(name = "name", nullable = false)
     private String name;
  

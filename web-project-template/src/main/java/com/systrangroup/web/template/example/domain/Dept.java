@@ -17,7 +17,6 @@ import lombok.ToString;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Data
-@ToString(callSuper=false, includeFieldNames=true)
 public class Dept{
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
