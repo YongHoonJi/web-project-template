@@ -15,21 +15,21 @@
  */
 package com.systrangroup.web.template.example.controller;
 
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.systrangroup.web.template.example.controller.dto.AuthenticationRequest;
-import com.systrangroup.web.template.example.controller.dto.AuthenticationToken;
+import com.systrangroup.web.template.example.domain.Greeting;
+import com.systrangroup.web.template.example.domain.User;
 import com.systrangroup.web.template.example.service.SecurityService;
 
 
@@ -43,25 +43,42 @@ public class AuthenticationController {
 	@Autowired
 	private SecurityService securityService;
 
+	private static final String template = "Hello, %s!";
+
+	private final AtomicLong counter = new AtomicLong();
+
+	@RequestMapping("/greeting")
+	public Greeting greeting(@AuthenticationPrincipal User user) {
+		return new Greeting(counter.incrementAndGet(), "hi");
+	}
+	
 	/**
 	 * peek API
 	 */
 	@RequestMapping(value = "/test", method = { RequestMethod.GET })
-	public void test(HttpServletRequest request) {
-		System.out.println(request.getSession().getId());
-		System.out.println(request.getUserPrincipal());
+	public void test(@AuthenticationPrincipal User user) {
+		System.out.println("test");
 	}
 
-	/**
-	 * 사용자 인증 API
-	 * @param authenticationRequest 인증 요청 정보
-	 * @param request
-	 * @return
-	 * @throws ServletException 
-	 */
-	@RequestMapping(value = "/authenticate", method = { RequestMethod.GET })
-	public AuthenticationToken login(
-			@RequestBody AuthenticationRequest authenticationRequest, HttpServletRequest request) {
-		return this.securityService.login(authenticationRequest, request);
-	}
+	
+    @RequestMapping(value = "/oauth/token/revoke", method = RequestMethod.POST)
+    public @ResponseBody void revoke(@RequestParam("token") String value) {
+        this.revokeToken(value);
+    }
+
+    @Autowired
+    TokenStore tokenStore;
+
+    public boolean revokeToken(String tokenValue) {
+        OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
+        if (accessToken == null) {
+            return false;
+        }
+        if (accessToken.getRefreshToken() != null) {
+            tokenStore.removeRefreshToken(accessToken.getRefreshToken());
+        }
+        tokenStore.removeAccessToken(accessToken);
+        return true;
+    }
+
 }

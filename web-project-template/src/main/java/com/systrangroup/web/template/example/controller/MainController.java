@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.systrangroup.web.template.example.domain.User;
 import com.systrangroup.web.template.example.exception.DataFormatException;
@@ -27,9 +27,9 @@ import com.systrangroup.web.template.example.service.BusinessService;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
  
-@RestController
-@RequestMapping("/sample/users")
-
+@Controller
+@RequestMapping("/users/v1")
+// 
 public class MainController extends AbstractRestHandler{
 	
 	@Autowired 
@@ -48,7 +48,7 @@ public class MainController extends AbstractRestHandler{
                                       @RequestParam(value = "size", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
                                       HttpServletRequest request, HttpServletResponse response) {
     	if(request.getSession() != null){
-    		System.out.println(request.getSession().getCreationTime());
+    		System.out.println(request.getSession().getCreationTime());	
     		System.out.println(request.getSession().getId());
     	}
     	return this.businessService.getAllUsers(page, size);
