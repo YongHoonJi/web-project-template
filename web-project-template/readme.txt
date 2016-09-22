@@ -5,16 +5,6 @@ JPA 기반의 restful api 서버 탬플릿
 
 # 클라이언트 테스트는 fiddler로 : http://www.telerik.com/fiddler
 
-# user insert sql
-insert into user
-(ACTIVE_TYPE, AGE, EMAIL, NAME, PASSWORD, DEPT_ID)
-values('Y', 22, 'user', 'username', '123', 1)
-
-# dept 테이블에 아래 데이터 입력
-insert into dept (dept_id, name) values (1, 'ARCH');
-insert into dept (dept_id, name) values (2, 'CODER');
-insert into dept (dept_id, name) values (3, 'QA');
-
 #참고 - restful api 인증방식
 http://bcho.tistory.com/955
 
