@@ -1,0 +1,119 @@
+{
+	"id": "dea55a42-1323-d8c7-fd1e-dfdf83bde7cd",
+	"name": "oauth",
+	"description": "",
+	"order": [
+		"78fe9310-835d-ddf3-a805-5390679455ac",
+		"36c5af2d-dcc5-d56a-aefd-e1ad5968124b",
+		"9938be94-81ff-f11f-d291-10021d983963"
+	],
+	"folders": [],
+	"timestamp": 1474533243122,
+	"owner": "1049621",
+	"public": false,
+	"published": false,
+	"requests": [
+		{
+			"id": "36c5af2d-dcc5-d56a-aefd-e1ad5968124b",
+			"headers": "Authorization: Bearer 5109f239-19ba-44d3-93b3-1ca7c5bc50d1\n",
+			"url": "http://localhost:8080/mat/v1.0/users",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1474538031430,
+			"name": "http://localhost:8080/users/v1",
+			"description": "get list with token",
+			"collectionId": "dea55a42-1323-d8c7-fd1e-dfdf83bde7cd",
+			"responses": []
+		},
+		{
+			"id": "78fe9310-835d-ddf3-a805-5390679455ac",
+			"headers": "Accept: application/json\nAuthorization: Basic bWF0LXdlYjpzeXN0cmFuLTY4NDA=\n",
+			"url": "http://localhost:8080/oauth/token",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "dea55a42-1323-d8c7-fd1e-dfdf83bde7cd",
+			"data": [
+				{
+					"key": "password",
+					"value": "123",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "user@a.com1",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "grant_type",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "scope",
+					"value": "read write",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_secret",
+					"value": "systran-6840",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_id",
+					"value": "mat-web",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"name": "http://localhost:8080/oauth/token",
+			"description": "request token from oauth",
+			"descriptionFormat": "html",
+			"time": 1474532987039,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "9938be94-81ff-f11f-d291-10021d983963",
+			"headers": "Authorization: Bearer 2a6762fb-0b8f-491d-9099-54f775b8832\n",
+			"url": "http://localhost:8080//mat/v1.0/auth/revoke",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "token",
+					"value": "2a6762fb-0b8f-491d-9099-54f775b8832",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1474538066122,
+			"name": "http://localhost:8080/auth/token/revoke",
+			"description": "revoke token",
+			"collectionId": "dea55a42-1323-d8c7-fd1e-dfdf83bde7cd",
+			"responses": []
+		}
+	]
+}
