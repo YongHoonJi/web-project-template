@@ -44,7 +44,7 @@ public class JpaTestController extends AbstractRestHandler{
     @RequestMapping("/findOneUserByAdvancedQuery")
     public @ResponseBody User findOneUserByAdvancedQuery(User user) {
         return this.businessService.findOneUserByAdvancedQuery(user.getName());
-    }        
+    }
     
     /**
      * search by defined query

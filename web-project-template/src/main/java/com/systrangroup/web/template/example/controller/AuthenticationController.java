@@ -31,7 +31,7 @@ import com.systrangroup.web.template.example.domain.User;
 
 
 @RestController
-@RequestMapping("/mat/v1/auth")
+@RequestMapping("/mat/v1.0/auth")
 public class AuthenticationController {
 	
 	@Autowired
@@ -49,7 +49,7 @@ public class AuthenticationController {
      * 인증 토큰을 토큰 저장소 (in memory에서 제거한다 = logout)
      * @param value 저장소에서 삭제할 토큰
      */
-    @RequestMapping(value = "/revoke", method = RequestMethod.GET)
+    @RequestMapping(value = "/revoke", method = RequestMethod.POST)
     public @ResponseBody void revoke(@RequestParam("token") String value) {
         System.out.println(this.revokeToken(value));
     }
