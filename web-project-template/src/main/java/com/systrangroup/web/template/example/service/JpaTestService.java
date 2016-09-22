@@ -17,7 +17,6 @@ import com.systrangroup.web.template.example.domain.QUser;
 import com.systrangroup.web.template.example.domain.User;
 import com.systrangroup.web.template.example.repository.AdvancedQueryRepository;
 import com.systrangroup.web.template.example.repository.DeptDslRepository;
-import com.systrangroup.web.template.example.repository.DeptRepository;
 import com.systrangroup.web.template.example.repository.JpaCRUDRepository;
 import com.systrangroup.web.template.example.repository.QueryDslRepository;
 import com.systrangroup.web.template.example.repository.QueryRepository;
@@ -26,21 +25,28 @@ import com.systrangroup.web.template.example.repository.UserRepository;
 import com.systrangroup.web.template.example.repository.UserRepositoryCustom;
 
 @Service
-public class BusinessService{
+public class JpaTestService{
 	@Autowired
 	private UserRepository userRepository;
+	
 	@Autowired
 	private DeptDslRepository deptDslRepository;
+	
 	@Autowired
 	private JpaCRUDRepository jpaCRUDRepository;
+	
 	@Autowired
 	private AdvancedQueryRepository advQueryRepository;
+	
 	@Autowired
 	private QueryDslRepository queryDslRepository;
+	
 	@Autowired
 	private SearchRepository searchRepository;
+	
 	@Autowired 
 	private QueryRepository queryRepository;
+	
 	@Autowired
 	private UserRepositoryCustom userRepositoryCustom;
 	

@@ -16,8 +16,6 @@
 package com.systrangroup.web.template.example.controller;
 
 
-import java.util.concurrent.atomic.AtomicLong;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -30,46 +28,33 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.systrangroup.web.template.example.domain.Greeting;
 import com.systrangroup.web.template.example.domain.User;
-import com.systrangroup.web.template.example.service.SecurityService;
 
 
-/**
- * 인증용 API
- */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/mat/v1/auth")
 public class AuthenticationController {
 	
 	@Autowired
-	private SecurityService securityService;
-
-	private static final String template = "Hello, %s!";
-
-	private final AtomicLong counter = new AtomicLong();
-
-	@RequestMapping("/greeting")
-	public Greeting greeting(@AuthenticationPrincipal User user) {
-		return new Greeting(counter.incrementAndGet(), "hi");
-	}
-	
+	private TokenStore tokenStore;
 	/**
-	 * peek API
+	 * 인증을 전후 테스트를 위한 테스트 API
+	 * 
 	 */
-	@RequestMapping(value = "/test", method = { RequestMethod.GET })
-	public void test(@AuthenticationPrincipal User user) {
-		System.out.println("test");
+	@RequestMapping("/peek")
+	public Greeting peek(@AuthenticationPrincipal User user) {
+		return new Greeting(100, "Hello world!");
 	}
-
 	
-    @RequestMapping(value = "/oauth/token/revoke", method = RequestMethod.POST)
+    /**
+     * 인증 토큰을 토큰 저장소 (in memory에서 제거한다 = logout)
+     * @param value 저장소에서 삭제할 토큰
+     */
+    @RequestMapping(value = "/revoke", method = RequestMethod.GET)
     public @ResponseBody void revoke(@RequestParam("token") String value) {
-        this.revokeToken(value);
+        System.out.println(this.revokeToken(value));
     }
 
-    @Autowired
-    TokenStore tokenStore;
-
-    public boolean revokeToken(String tokenValue) {
+    private boolean revokeToken(String tokenValue) {
         OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
         if (accessToken == null) {
             return false;

@@ -1,4 +1,4 @@
-package com.systrangroup.web.template.example;
+package com.systrangroup.web.template.example.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -31,10 +33,13 @@ import com.systrangroup.web.template.example.service.UserAuthenticationService;
  * /oauth/token_key (JWT 토큰을 사용하는 경우 토큰 검증을 위한 공개키를 노출)가 있다.
  */
 @Configuration
-public class OAuth2Configuration {
+public class OAuth2Configuration{
 
-	private static final String RESOURCE_ID = "restservice";
+	private static final String RESOURCE_ID = "mat-rest-api";
 
+	/**
+	 * API 리소스 서버 설정
+	 */
 	@Configuration
 	@EnableResourceServer
 	protected static class ResourceServerConfiguration extends
@@ -48,12 +53,15 @@ public class OAuth2Configuration {
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			http.headers().frameOptions().disable();
-			http.authorizeRequests().antMatchers("/sample/**").authenticated();
-			http.authorizeRequests().antMatchers("/greeting").authenticated();
+			http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+			http.authorizeRequests().antMatchers("/sample/**", "/auth/**").authenticated();
 		}
 
 	}
 
+	/**
+	 * oauth 권한 인증 서버
+	 */
 	@Configuration
 	@EnableAuthorizationServer
 	protected static class AuthorizationServerConfiguration extends
@@ -84,19 +92,27 @@ public class OAuth2Configuration {
         }
 	    
 		
+		/* 
+		 * client에 대한 접근 정보 설정
+		 * @다수 client가 접근하는 경우 인메모리가 아닌 database를 고려
+		 */
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 			clients
 				.inMemory()
-					.withClient("clientapp")
-						.authorizedGrantTypes("password", "refresh_token")
-						.authorities("USER")
+					.withClient("mat-web") 					// 접근 클라언트 ID
+						.authorizedGrantTypes("password") 	// 인증타입
+						.authorities("USER")				// 접근 권한
 						.scopes("read", "write")
-						.resourceIds(RESOURCE_ID)
-						.secret("123456")
-						.accessTokenValiditySeconds(60);
+						.resourceIds(RESOURCE_ID)			// 리소스 식별자
+						.secret("systran-6840")				// 클라언트에 발급된 비밀번호
+						.accessTokenValiditySeconds(60);	// 토큰 유효시간(초)
 		}
 
+		/**
+		 * 발급된 인증 토큰을 저장소에 저장
+		 * @return
+		 */
 		@Bean
 		@Primary
 		public DefaultTokenServices tokenServices() {
@@ -109,7 +125,7 @@ public class OAuth2Configuration {
 		@Bean
 		@Primary
 		public TokenStore tokenStore() {
-		    return new InMemoryTokenStore();
+		    return this.tokenStore;
 		}
 
 	}

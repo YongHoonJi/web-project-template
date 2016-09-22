@@ -18,7 +18,6 @@ C:/Program Files/Java/jdk1.8.0_31/bin/javaw.exe
 3. mvn eclipse:eclipse
 
 # 클라언트 테스트 케이스 
-
 - find all
 REQUEST TYPE : GET
 URL : http://localhost:8080/sample/users
@@ -37,3 +36,6 @@ REQUEST TYPE : PUT
 URL : http://localhost:8080/sample/users/{id}
 BODY : {"id":1, name":"JiYong","age":27,"activeType":"Y","dept":{"deptId":3,"deptNameType":"CODER"}}
 
+#curl 테스트
+1. 토큰 발급
+curl -X POST -vu mat-web:systran-684 http://localhost:8080/oauth/token -H "Accept: application/json" -d "password=123&username=user@a.com1&grant_type=password&scope=read%20write&client_secret=systran-6840&client_id=mat-web"

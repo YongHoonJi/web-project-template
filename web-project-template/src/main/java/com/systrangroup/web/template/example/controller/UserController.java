@@ -23,35 +23,31 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.systrangroup.web.template.example.domain.User;
 import com.systrangroup.web.template.example.exception.DataFormatException;
-import com.systrangroup.web.template.example.service.BusinessService;
+import com.systrangroup.web.template.example.service.JpaTestService;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
  
 @Controller
-@RequestMapping("/users/v1")
-// 
-public class MainController extends AbstractRestHandler{
+@RequestMapping("/mat/v1/users")
+
+public class UserController extends AbstractRestHandler{
 	
 	@Autowired 
-	private BusinessService businessService;
+	private JpaTestService businessService;
 	
     @RequestMapping(value = "",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Get a paginated list of all users", notes = "The list is paginated. You can provide a page number (default 0) and a page size (default 100)")    
+    @ApiOperation(value = "Get a paginated list of all users", notes = "The list is paginated. You can provide a offset number (default 0) and a limit (default 100)")    
     public
     @ResponseBody
-    Page<User> getAllUsers(@ApiParam(value = "The page number (zero-based)", required = true)
-                                      @RequestParam(value = "page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
-                                      @ApiParam(value = "Tha page size", required = true)
-                                      @RequestParam(value = "size", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
+    Page<User> getAllUsers(@ApiParam(value = "offset number is zero-based)", required = true)
+                                      @RequestParam(value = "offset", required = true, defaultValue = DEFAULT_OFFSET) Integer offset,
+                                      @ApiParam(value = "limit", required = true)
+                                      @RequestParam(value = "limit", required = true, defaultValue = DEFAULT_LIMIT_SIZE) Integer limit,
                                       HttpServletRequest request, HttpServletResponse response) {
-    	if(request.getSession() != null){
-    		System.out.println(request.getSession().getCreationTime());	
-    		System.out.println(request.getSession().getId());
-    	}
-    	return this.businessService.getAllUsers(page, size);
+    	return this.businessService.getAllUsers(offset, limit);
     }
     
     @RequestMapping(value = "/{id}",
@@ -62,8 +58,7 @@ public class MainController extends AbstractRestHandler{
     public
     @ResponseBody
     User getUser(@ApiParam(value = "The ID of a user.", required = true)
-                             @PathVariable("id") Long id,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	return this.businessService.getUser(id);
     }
     
@@ -84,9 +79,8 @@ public class MainController extends AbstractRestHandler{
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "Update a user.", notes = "You have to provide a valid user ID in the URL and in the payload. The ID attribute can not be updated.")
-    public void updateUser(@ApiParam(value = "The ID of the existing hotel resource.", required = true)
-                                 @PathVariable("id") Long id, @RequestBody User user,
-                                 HttpServletRequest request, HttpServletResponse response) {
+    public void updateUser(@ApiParam(value = "The ID of the existing user.", required = true)
+                                 @PathVariable("id") Long id, @RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
         checkResourceFound(this.businessService.getUser(id));
         if (id != user.getId()) throw new DataFormatException("ID doesn't match!");
         this.businessService.updateUser(user);
@@ -104,50 +98,4 @@ public class MainController extends AbstractRestHandler{
         this.businessService.deActivate(id);
     }
     
-    /************** 아래는 JPA 테스트용 ****************/
-    /**
-     * find a user by advanced query(JPQL)
-     * @return
-     */
-    @RequestMapping("/findOneUserByAdvancedQuery")
-    public @ResponseBody User findOneUserByAdvancedQuery(User user) {
-        return this.businessService.findOneUserByAdvancedQuery(user.getName());
-    }        
-    
-    /**
-     * search by defined query
-     * @return
-     */
-    @RequestMapping("/findByNameFromUser")
-    public @ResponseBody List<User> findByNameFromUser(User user) {
-        return this.businessService.findByNameFromUser(user.getName());
-    }
-    
-    /**
-     * search by customized query
-     * @return
-     */
-    @RequestMapping("/findOneUserByNativeQuery")
-    public @ResponseBody List<User> findOneUserByNativeQuery() {
-        return this.businessService.findOneUserByNativeQuery();
-    }
-    
-    /**
-     * search by queryDsl(Joined JPQL)
-     * @return
-     */
-    @RequestMapping("/findOneUserByQueryDsl")
-    public @ResponseBody User findOneUserByQueryDsl(User user) throws Exception{
-    	return this.businessService.findOneUserByQueryDsl(user.getId());
-    }
-    
-    /**
-     * get list with pagination 
-     * @return
-     */
-    @RequestMapping("/findListWithPagination")
-    public @ResponseBody List<User> findListWithPagination(User user,@RequestParam("page") int pageNumber, @RequestParam("size")int pageSize) throws Exception{
-    	Pageable pageRequest = new PageRequest(pageNumber, pageSize, Sort.Direction.DESC, "id");
-    	return this.businessService.findListWithPagination(user, pageRequest);
-    }
 }

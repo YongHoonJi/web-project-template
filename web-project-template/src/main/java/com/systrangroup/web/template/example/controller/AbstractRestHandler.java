@@ -1,5 +1,6 @@
 package com.systrangroup.web.template.example.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -21,27 +22,26 @@ public abstract class AbstractRestHandler implements ApplicationEventPublisherAw
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
     protected ApplicationEventPublisher eventPublisher;
 
-    protected static final String  DEFAULT_PAGE_SIZE = "100";
-    protected static final String DEFAULT_PAGE_NUM = "0";
+    protected static final String  DEFAULT_LIMIT_SIZE = "100";
+    protected static final String DEFAULT_OFFSET = "0";
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DataFormatException.class)
     public
     @ResponseBody
-    RestErrorInfo handleDataStoreException(DataFormatException ex, WebRequest request, HttpServletResponse response) {
+    RestErrorInfo handleDataStoreException(DataFormatException ex, HttpServletRequest request, HttpServletResponse response) {
         log.info("Converting Data Store exception to RestResponse : " + ex.getMessage());
-
-        return new RestErrorInfo(ex, "You messed up.");
+        return new RestErrorInfo(ex, "Data handlign exception");
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
     public
     @ResponseBody
-    RestErrorInfo handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request, HttpServletResponse response) {
+    RestErrorInfo handleResourceNotFoundException(ResourceNotFoundException ex, HttpServletRequest request, HttpServletResponse response) {
         log.info("ResourceNotFoundException handler:" + ex.getMessage());
 
-        return new RestErrorInfo(ex, "Sorry I couldn't find it.");
+        return new RestErrorInfo(ex, "No data.");
     }
 
     @Override
@@ -52,7 +52,7 @@ public abstract class AbstractRestHandler implements ApplicationEventPublisherAw
     //todo: replace with exception mapping
     public static <T> T checkResourceFound(final T resource) {
         if (resource == null) {
-            throw new ResourceNotFoundException("resource not found");
+            throw new ResourceNotFoundException("No resource");
         }
         return resource;
     }

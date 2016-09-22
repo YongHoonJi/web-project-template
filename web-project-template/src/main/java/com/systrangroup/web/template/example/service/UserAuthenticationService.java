@@ -32,6 +32,9 @@ import org.springframework.stereotype.Service;
 import com.systrangroup.web.template.example.domain.User;
 import com.systrangroup.web.template.example.repository.UserRepository;
 
+/**
+ * 유저 인증(DB 인증) 및 인증정보를 생성
+ */
 @Service
 public class UserAuthenticationService implements UserDetailsService {
 	@Autowired
@@ -41,9 +44,12 @@ public class UserAuthenticationService implements UserDetailsService {
 	
 	public static final String ROLE_USER = "USER";
 
+	/**
+	 * 인증된 유저정보
+	 */
 	@SuppressWarnings("serial")
 	static class SimpleUserDetails implements UserDetails {
-
+		
 		private String username;
 		private String password;
 		private boolean enabled = true;
@@ -53,10 +59,9 @@ public class UserAuthenticationService implements UserDetailsService {
 			this.username = username;
 			this.password = pw;
 
-			// setup roles
+			// 롤 지정
 			Set<String> roles = new HashSet<String>();
 			roles.addAll(Arrays.<String>asList(null == extraRoles ? new String[0] : extraRoles));
-			// export them as part of authorities
 			for (String r : roles) {
 				authorities.add(new SimpleGrantedAuthority(role(r)));
 			}
@@ -106,6 +111,9 @@ public class UserAuthenticationService implements UserDetailsService {
 		}
 	}
 
+	/*
+	 * 유저 이름 기반으로 database 조회
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return this.getUserDetailByEmail(username);
@@ -119,7 +127,7 @@ public class UserAuthenticationService implements UserDetailsService {
 	private SimpleUserDetails getUserDetailByEmail(String email){
 		System.out.println("email:"+email);
 		Optional<User> ofUser = Optional.ofNullable(this.userRepository.findByEmail(email));
-		if(ofUser.isPresent()){
+		if(ofUser.isPresent()) {
 			return new SimpleUserDetails(ofUser.get().getEmail(), ofUser.get().getPassword(), ROLE_USER);
 		}
 		throw new UsernameNotFoundException("No user found for username " + email);
