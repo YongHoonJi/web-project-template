@@ -106,7 +106,7 @@ public class OAuth2Configuration{
 						.scopes("read", "write")
 						.resourceIds(RESOURCE_ID)			// 리소스 식별자
 						.secret("systran-6840")				// 클라언트에 발급된 비밀번호
-						.accessTokenValiditySeconds(60);	// 토큰 유효시간(초)
+						.accessTokenValiditySeconds(3600);	// 토큰 유효시간(초)
 		}
 
 		/**

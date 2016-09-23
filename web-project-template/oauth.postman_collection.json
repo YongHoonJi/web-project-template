@@ -91,23 +91,23 @@
 		},
 		{
 			"id": "9938be94-81ff-f11f-d291-10021d983963",
-			"headers": "Authorization: Bearer f0b28794-f7a1-4180-864f-bdc8d035643f\nContent-Type: application/json\n",
+			"headers": "Authorization: Bearer 0ebfd3f0-2ea9-4c69-a098-27706c335ae5\n",
 			"url": "http://localhost:8080//mat/v1.0/auth/revoke",
 			"preRequestScript": null,
 			"pathVariables": {},
-			"method": "POST",
+			"method": "GET",
 			"data": [],
 			"dataMode": "raw",
 			"version": 2,
 			"tests": null,
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1474592156500,
+			"time": 1474614926345,
 			"name": "http://localhost:8080/auth/token/revoke",
 			"description": "revoke token",
 			"collectionId": "dea55a42-1323-d8c7-fd1e-dfdf83bde7cd",
 			"responses": [],
-			"rawModeData": "{\"token\":\"f0b28794-f7a1-4180-864f-bdc8d035643f\"}"
+			"rawModeData": ""
 		}
 	]
 }

@@ -16,6 +16,8 @@
 package com.systrangroup.web.template.example.controller;
 
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -27,17 +29,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.base.Strings;
 import com.systrangroup.web.template.example.controller.dto.AuthenticationRevocation;
 import com.systrangroup.web.template.example.domain.Greeting;
 import com.systrangroup.web.template.example.domain.User;
+import com.systrangroup.web.template.example.service.AuthenticationService;
 
 
 @RestController
 @RequestMapping("/mat/v1.0/auth")
 public class AuthenticationController {
-	
 	@Autowired
-	private TokenStore tokenStore;
+	private AuthenticationService service;
 	
 	/**
 	 * 인증을 전후 테스트를 위한 테스트 API
@@ -53,23 +56,10 @@ public class AuthenticationController {
      * @param value 저장소에서 삭제할 토큰
      */
     @RequestMapping(value = "/revoke",
-            method = RequestMethod.POST,
-            consumes = {"application/json", "application/xml"},
+            method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
-    public @ResponseBody AuthenticationRevocation revoke(@RequestBody AuthenticationRevocation revocation) {
-        return this.revokeToken(revocation);
-    }
-
-    private AuthenticationRevocation revokeToken(AuthenticationRevocation revocation) {
-        OAuth2AccessToken accessToken = tokenStore.readAccessToken(revocation.getToken());
-        if (accessToken == null) {
-            return new AuthenticationRevocation(false, revocation.getToken());
-        }
-        if (accessToken.getRefreshToken() != null) {
-            tokenStore.removeRefreshToken(accessToken.getRefreshToken());
-        }
-        tokenStore.removeAccessToken(accessToken);
-        return new AuthenticationRevocation(true, revocation.getToken());
+    public @ResponseBody AuthenticationRevocation revoke(HttpServletRequest request) {
+        return this.service.revokeToken(request);
     }
 
 }

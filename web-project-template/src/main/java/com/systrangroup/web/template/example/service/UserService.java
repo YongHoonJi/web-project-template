@@ -1,12 +1,17 @@
 package com.systrangroup.web.template.example.service;
 
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Strings;
 import com.mysema.query.types.Predicate;
+import com.systrangroup.web.template.example.controller.dto.AuthenticationRevocation;
 import com.systrangroup.web.template.example.domain.ActiveType;
 import com.systrangroup.web.template.example.domain.Dept;
 import com.systrangroup.web.template.example.domain.DeptNameType;
@@ -55,5 +60,5 @@ public class UserService {
     	user.setDept(dept);
     	return user;
 	}
-
+	
 }
