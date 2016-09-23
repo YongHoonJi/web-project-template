@@ -53,6 +53,7 @@ public class UserAuthenticationService implements UserDetailsService {
 		private String username;
 		private String password;
 		private boolean enabled = true;
+		
 		private Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 
 		public SimpleUserDetails(String username, String pw, String... extraRoles) {
