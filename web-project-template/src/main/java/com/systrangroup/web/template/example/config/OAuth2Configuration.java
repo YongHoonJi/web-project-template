@@ -54,7 +54,7 @@ public class OAuth2Configuration{
 		public void configure(HttpSecurity http) throws Exception {
 			http.headers().frameOptions().disable();
 			http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-			http.authorizeRequests().antMatchers("/sample/**", "/auth/**").authenticated();
+			http.authorizeRequests().antMatchers("/mat/v1.0/**", "/auth/**").authenticated();
 		}
 
 	}
