@@ -68,17 +68,19 @@ public class JpaTestService{
 	}
 	
 	public void saveUser(){
-    	jpaCRUDRepository.save(this.createMockUser("Steve", 27, DeptNameType.ARCH));
-    	jpaCRUDRepository.save(this.createMockUser("Turing", 87, DeptNameType.CODER));
-    	jpaCRUDRepository.save(this.createMockUser("Mick", 17, DeptNameType.QA));
-    	jpaCRUDRepository.save(this.createMockUser("Cal", 27, DeptNameType.CODER));
-    	jpaCRUDRepository.save(this.createMockUser("Ano", 22, DeptNameType.CODER));
+    	jpaCRUDRepository.save(this.createMockUser("steve@test.com", "123", "Steve", 27, DeptNameType.ARCH));
+    	jpaCRUDRepository.save(this.createMockUser("Turing@test.com", "123", "Turing", 87, DeptNameType.CODER));
+    	jpaCRUDRepository.save(this.createMockUser("Mick@test.com", "123", "Mick", 17, DeptNameType.QA));
+    	jpaCRUDRepository.save(this.createMockUser("Cal@test.com", "123", "Cal", 27, DeptNameType.CODER));
+    	jpaCRUDRepository.save(this.createMockUser("Ano@test.com", "123", "Ano", 22, DeptNameType.CODER));
 	}
 	
-	private User createMockUser(String userName, int age, DeptNameType deptNameType){
+	private User createMockUser(String email, String password, String userName, int age, DeptNameType deptNameType){
 		Predicate p = QDept.dept.deptNameType.eq(deptNameType);
 		Dept dept = this.deptDslRepository.findOne(p);
     	User user = new User();
+    	user.setEmail(email);
+    	user.setPassword(password);
     	user.setAge(age);
     	user.setName(userName);
     	user.setActiveType(ActiveType.Y);
@@ -87,7 +89,7 @@ public class JpaTestService{
 	}
 	
 	public User findOneUserByQueryDsl(Long id) throws Exception {
-		User savedUser = jpaCRUDRepository.save(this.createMockUser("Jobs", 60, DeptNameType.CODER));
+		User savedUser = jpaCRUDRepository.save(this.createMockUser("Jobs@test.com", "123", "Jobs", 60, DeptNameType.CODER));
 
 		Predicate p = QUser.user.id.eq(savedUser.getId()); // 1. select user 2. select dept
 		Iterable<User> iUser = queryDslRepository.findAll(p);
@@ -117,7 +119,7 @@ public class JpaTestService{
 	}
 	
 	public User createUser(User user){
-		return this.userRepository.save(this.createMockUser(user.getName(), user.getAge(), user.getDept().getDeptNameType()));
+		return this.userRepository.save(this.createMockUser(user.getEmail(), user.getPassword(), user.getName(), user.getAge(), user.getDept().getDeptNameType()));
 	}
 	
 	public void updateUser(User user){

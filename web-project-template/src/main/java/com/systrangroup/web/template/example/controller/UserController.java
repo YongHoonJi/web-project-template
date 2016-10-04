@@ -65,6 +65,7 @@ public class UserController extends AbstractRestHandler{
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Create a user.", notes = "Returns the URL of the new resource in the Location header.")
     public void createUser(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+    	System.out.println(user.toString());
         User savedUser = this.businessService.createUser(user);
         response.setHeader("Location", request.getRequestURL().append("/").append(savedUser.getId()).toString());
     }
